@@ -105,8 +105,9 @@ def download_audio(urls, mp4, downloads_path):
                     'preferedformat': 'mp4',
                 }
             ],
+            'quiet': False,
             'outtmpl': f'{downloads_path}/%(title)s.%(ext)s',
-            'ffmpeg_location': os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), 'ffmpeg'),
+            'ffmpeg_location': find_or_create_ffmpeg_path(),
         }
     else:
         ydl_opts = {
@@ -168,3 +169,4 @@ if __name__ == "__main__":
             os.utime(file_path)
         except:
             print("Could not fix modified time of " + file_path)
+
