@@ -98,10 +98,15 @@ def find_or_create_ffmpeg_path():
 def download_audio(urls, mp4, downloads_path):
     if mp4:
         ydl_opts = {
-            "merge_output_format": "mp4",
-            'quiet': False,
+            'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+            'postprocessors': [
+                {
+                    'key': 'FFmpegVideoRemuxer',
+                    'preferedformat': 'mp4',
+                }
+            ],
             'outtmpl': f'{downloads_path}/%(title)s.%(ext)s',
-            'ffmpeg_location': find_or_create_ffmpeg_path(),
+            'ffmpeg_location': os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), 'ffmpeg'),
         }
     else:
         ydl_opts = {
